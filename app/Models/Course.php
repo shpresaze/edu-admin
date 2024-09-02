@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Course extends Model
 {
+    protected $guarded = [];
     public function teacher(): BelongsTo
     {
         return $this->belongsTo(Teacher::class);
