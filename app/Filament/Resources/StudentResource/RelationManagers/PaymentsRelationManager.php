@@ -1,33 +1,20 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\StudentResource\RelationManagers;
 
-use App\Filament\Resources\PaymentResource\Pages;
-use App\Filament\Resources\PaymentResource\RelationManagers;
-use App\Models\Payment;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Auth;
 
-class PaymentResource extends Resource
+class PaymentsRelationManager extends RelationManager
 {
-    protected static ?string $model = Payment::class;
+    protected static string $relationship = 'payments';
 
-    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
-
-    protected static ?int $navigationSort = 4;
-
-    public static function shouldRegisterNavigation(): bool
-        {
-            return !Auth::user()->isTeacher();
-        }
-
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -65,9 +52,10 @@ class PaymentResource extends Resource
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
+            ->recordTitleAttribute('course.name')
             ->columns([
                 Tables\Columns\TextColumn::make('course.name') // Adjust based on actual relation
                 ->sortable()
@@ -98,7 +86,10 @@ class PaymentResource extends Resource
                     ->date(),
             ])
             ->filters([
-                // Add any filters here if needed
+                //
+            ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -109,12 +100,5 @@ class PaymentResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ManagePayments::route('/'),
-        ];
     }
 }

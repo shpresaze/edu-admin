@@ -83,6 +83,7 @@ class StudentResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -94,7 +95,8 @@ class StudentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // Define any relations you want to manage here
+            RelationManagers\CoursesRelationManager::class,
+            RelationManagers\PaymentsRelationManager::class,
         ];
     }
 
@@ -104,6 +106,7 @@ class StudentResource extends Resource
             'index' => Pages\ListStudents::route('/'),
             'create' => Pages\CreateStudent::route('/create'),
             'edit' => Pages\EditStudent::route('/{record}/edit'),
+            'view' => Pages\ViewStudent::route('/{record}'),
         ];
     }
 }
