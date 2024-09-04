@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CourseResource\Pages;
 use App\Filament\Resources\CourseResource\RelationManagers;
 use App\Models\Course;
-use App\Models\Teacher;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -29,10 +29,10 @@ class CourseResource extends Resource
                     ->label('Course Name')
                     ->required(),
 
-                Forms\Components\Select::make('teacher_id')
+                Forms\Components\Select::make('user_id')
                     ->label('Teacher')
                     ->options(function () {
-                        return Teacher::all()->pluck('full_name', 'id');
+                        return User::all()->pluck('name', 'id');
                     })
                     ->required(),
 
@@ -63,7 +63,7 @@ class CourseResource extends Resource
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('teacher.full_name')
+                Tables\Columns\TextColumn::make('user.name')
                     ->sortable()
                     ->searchable(),
 

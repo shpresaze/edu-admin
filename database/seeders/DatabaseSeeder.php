@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => Hash::make('admin'),
             'role' => 'admin',
+            'embg' => '1234567890123'
         ]);
 
         \App\Models\User::factory()->create([
@@ -27,6 +28,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'teacher@gmail.com',
             'password' => Hash::make('teacher'),
             'role' => 'teacher',
+            'embg' => '1234567890121'
         ]);
     }
 }
