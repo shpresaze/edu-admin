@@ -38,7 +38,7 @@ class PaymentResource extends Resource
 
                 Forms\Components\Select::make('student_id')
                     ->label('Student')
-                    ->relationship('student', 'first_name')
+                    ->relationship('student', 'name')
                     ->required(),
 
                 Forms\Components\Select::make('currency_of_payments')
@@ -82,7 +82,7 @@ class PaymentResource extends Resource
                 ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('student.first_name')
+                Tables\Columns\TextColumn::make('student.name')
                 ->sortable()
                     ->searchable(),
 
@@ -110,8 +110,22 @@ class PaymentResource extends Resource
                     ->sortable()
                     ->searchable(),
             ])
-            ->filters([
-                // Add any filters here if needed
+             ->filters([
+                Tables\Filters\Filter::make('paid')
+                     ->label('Paid')
+                     ->query(function (Builder $query) {
+                         return $query->where('status', 'paid');
+                     }),
+                Tables\Filters\Filter::make('overdue')
+                    ->label('Overdue')
+                    ->query(function (Builder $query) {
+                        return $query->whereDate('due_date', '<', now());
+                    }),
+                Tables\Filters\Filter::make('unpaid')
+                    ->label('Unpaid')
+                    ->query(function (Builder $query) {
+                        return $query->where('status', 'unpaid');
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -22,10 +22,10 @@ class CoursesRelationManager extends RelationManager
                     ->label('Course Name')
                     ->required(),
 
-                Forms\Components\Select::make('teacher_id')
+                Forms\Components\Select::make('user_id')
                     ->label('Teacher')
                     ->options(function () {
-                        return Teacher::all()->pluck('full_name', 'id');
+                        return User::all()->pluck('name', 'id');
                     })
                     ->required(),
 
@@ -57,7 +57,8 @@ class CoursesRelationManager extends RelationManager
                      ->sortable()
                      ->searchable(),
 
-                 Tables\Columns\TextColumn::make('teacher.full_name')
+                 Tables\Columns\TextColumn::make('user.name')
+                     ->label('Teacher')
                      ->sortable(),
 
                  Tables\Columns\TextColumn::make('start_date')
@@ -70,6 +71,10 @@ class CoursesRelationManager extends RelationManager
 
                  Tables\Columns\TextColumn::make('schedule')
                      ->sortable(),
+
+                 Tables\Columns\TextColumn::make('students_count')
+                     ->label('Students Count')
+                     ->numeric(),
              ])
             ->filters([
                 //

@@ -18,11 +18,7 @@ class StudentsRelationManager extends RelationManager
     {
         return $form
         ->schema([
-            Forms\Components\TextInput::make('first_name')
-                ->required()
-                ->maxLength(255),
-
-            Forms\Components\TextInput::make('last_name')
+            Forms\Components\TextInput::make('name')
                 ->required()
                 ->maxLength(255),
 
@@ -56,13 +52,9 @@ class StudentsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitle(fn (Student $record): string => "{$record->first_name} {$record->last_name} {$record->embg}")
+            ->recordTitle(fn (Student $record): string => "{$record->name} {$record->embg}")
             ->columns([
-                Tables\Columns\TextColumn::make('first_name')
-                    ->sortable()
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('last_name')
+                Tables\Columns\TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
 
@@ -71,9 +63,11 @@ class StudentsRelationManager extends RelationManager
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('phone_number')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('address')
+                    ->sortable()
                     ->limit(50),
 
                 Tables\Columns\TextColumn::make('pivot.points')
@@ -86,7 +80,7 @@ class StudentsRelationManager extends RelationManager
             ->headerActions([
                Tables\Actions\CreateAction::make(),
                Tables\Actions\AttachAction::make()
-                   ->recordSelectSearchColumns(['first_name', 'last_name', 'embg'])
+                   ->recordSelectSearchColumns(['name', 'embg'])
                    ->preloadRecordSelect(),
             ])
             ->actions([

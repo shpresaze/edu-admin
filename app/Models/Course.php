@@ -21,6 +21,11 @@ class Course extends Model
         return $this->belongsToMany(Student::class)->withTimestamps()->withPivot('points');
     }
 
+     public function getStudentsCountAttribute(): int
+        {
+            return $this->students()->count();
+        }
+
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);

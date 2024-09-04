@@ -20,18 +20,18 @@ class Student extends Model
         return $this->hasMany(Payment::class);
     }
 
-    public function getFullNameAttribute(): string
-    {
-        return "{$this->first_name} {$this->last_name}";
-    }
-
     public function getEnrolledCoursesCountAttribute(): int
     {
-        return $this->courses()->where('status', 'ongoing')->count();
+        return $this->courses()
+            ->where(function ($query) {
+                $query->where('status', 'ongoing')
+                      ->orWhere('status', 'waiting_to_start');
+            })
+            ->count();
     }
 
     public function getCompletedCoursesCountAttribute(): int
     {
-        return $this->courses()->where('status', 'completed')->count();
+        return $this->courses()->where('status', 'done')->count();
     }
 }

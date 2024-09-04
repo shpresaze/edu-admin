@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => Hash::make('admin'),
             'role' => 'admin',
+            'phone_number' => '072687746',
             'embg' => '1234567890123'
         ]);
 
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'teacher@gmail.com',
             'password' => Hash::make('teacher'),
             'role' => 'teacher',
+            'phone_number' => '071687789',
             'embg' => '1234567890121'
         ]);
     }

@@ -31,11 +31,7 @@ class StudentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('first_name')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\TextInput::make('last_name')
+                Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
 
@@ -65,11 +61,7 @@ class StudentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('first_name')
-                    ->sortable()
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('last_name')
+                Tables\Columns\TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
 
@@ -78,9 +70,11 @@ class StudentResource extends Resource
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('phone_number')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('address')
+                    ->searchable()
                     ->limit(50),
 
                 Tables\Columns\TextColumn::make('enrolled_courses_count')

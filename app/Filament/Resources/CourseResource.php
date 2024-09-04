@@ -64,6 +64,7 @@ class CourseResource extends Resource
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label('Teacher')
                     ->sortable()
                     ->searchable(),
 
@@ -77,6 +78,10 @@ class CourseResource extends Resource
 
                 Tables\Columns\TextColumn::make('schedule')
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('students_count')
+                                ->label('Students Count')
+                                ->numeric(),
             ])
             ->filters([
                 SelectFilter::make('status')
