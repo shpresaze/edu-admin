@@ -33,12 +33,12 @@ class PaymentResource extends Resource
             ->schema([
                 Forms\Components\Select::make('course_id')
                     ->label('Course')
-                    ->relationship('course', 'name') // Adjust based on your actual relation
+                    ->relationship('course', 'name')
                     ->required(),
 
                 Forms\Components\Select::make('student_id')
                     ->label('Student')
-                    ->relationship('student', 'first_name') // Adjust based on your actual relation
+                    ->relationship('student', 'first_name')
                     ->required(),
 
                 Forms\Components\Select::make('status')
@@ -69,11 +69,11 @@ class PaymentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('course.name') // Adjust based on actual relation
+                Tables\Columns\TextColumn::make('course.name')
                 ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('student.first_name') // Adjust based on actual relation
+                Tables\Columns\TextColumn::make('student.first_name')
                 ->sortable()
                     ->searchable(),
 

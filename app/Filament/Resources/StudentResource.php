@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class StudentResource extends Resource
 {
@@ -75,7 +76,7 @@ class StudentResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('address')
-                    ->limit(50), // Limit the number of characters shown
+                    ->limit(50),
             ])
             ->filters([
                 // Add any filters here if needed
@@ -94,10 +95,17 @@ class StudentResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            RelationManagers\CoursesRelationManager::class,
-            RelationManagers\PaymentsRelationManager::class,
-        ];
+        if(Auth::check() && Auth::user()->isTeacher()){
+            return [
+                RelationManagers\CoursesRelationManager::class,
+            ];
+        }
+        else {
+            return [
+                RelationManagers\CoursesRelationManager::class,
+                RelationManagers\PaymentsRelationManager::class,
+            ];
+        }
     }
 
     public static function getPages(): array
@@ -110,4 +118,3 @@ class StudentResource extends Resource
         ];
     }
 }
-

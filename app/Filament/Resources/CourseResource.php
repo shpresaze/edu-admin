@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CourseResource\Pages;
+use App\Filament\Resources\CourseResource\RelationManagers;
 use App\Models\Course;
 use App\Models\Teacher;
 use Filament\Forms;
@@ -89,6 +90,13 @@ class CourseResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\StudentsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
