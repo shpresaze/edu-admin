@@ -17,7 +17,7 @@ class TeacherMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check() && Auth::user()->isTeacher()) {
-            $restrictedPaths = ['teachers', 'payments'];
+            $restrictedPaths = ['teachers', 'payments', 'students'];
 
             if (in_array($request->path(), $restrictedPaths)) {
                     return redirect('/');

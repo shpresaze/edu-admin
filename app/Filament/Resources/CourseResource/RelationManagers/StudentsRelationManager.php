@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Filament\Resources\CourseResource\RelationManagers;
-
+use App\Models\Student;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -45,13 +45,18 @@ class StudentsRelationManager extends RelationManager
             Forms\Components\Textarea::make('address')
                 ->required()
                 ->maxLength(65535),
+
+            Forms\Components\TextInput::make('points')
+                ->label('Points')
+                ->required()
+                ->numeric(),
         ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('full_name')
+            ->recordTitle(fn (Student $record): string => "{$record->first_name} {$record->last_name} {$record->embg}")
             ->columns([
                 Tables\Columns\TextColumn::make('first_name')
                     ->sortable()
@@ -70,20 +75,29 @@ class StudentsRelationManager extends RelationManager
 
                 Tables\Columns\TextColumn::make('address')
                     ->limit(50),
+
+                Tables\Columns\TextColumn::make('pivot.points')
+                    ->label('Points')
+                    ->numeric(),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+               Tables\Actions\CreateAction::make(),
+               Tables\Actions\AttachAction::make()
+                   ->recordSelectSearchColumns(['first_name', 'last_name', 'embg'])
+                   ->preloadRecordSelect(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DetachAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DetachBulkAction::make(),
                 ]),
             ]);
     }

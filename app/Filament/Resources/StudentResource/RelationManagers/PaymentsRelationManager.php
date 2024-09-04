@@ -28,10 +28,12 @@ class PaymentsRelationManager extends RelationManager
                     ->relationship('student', 'first_name')
                     ->required(),
 
-                Forms\Components\Select::make('status')
+                Forms\Components\Select::make('currency_of_payments')
+                    ->label('Currency Of Payments')
                     ->options([
-                        'paid' => 'Paid',
-                        'unpaid' => 'Unpaid',
+                        'USD' => 'USD',
+                        'EUR' => 'EUR',
+                        'MKD' => 'MKD',
                     ])
                     ->required(),
 
@@ -49,6 +51,13 @@ class PaymentsRelationManager extends RelationManager
 
                 Forms\Components\DatePicker::make('due_date')
                     ->required(),
+
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'paid' => 'Paid',
+                        'unpaid' => 'Unpaid',
+                    ])
+                    ->required(),
             ]);
     }
 
@@ -65,7 +74,7 @@ class PaymentsRelationManager extends RelationManager
                 ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('status')
+                Tables\Columns\TextColumn::make('currency_of_payments')
                     ->sortable()
                     ->searchable(),
 
@@ -84,6 +93,10 @@ class PaymentsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('due_date')
                     ->sortable()
                     ->date(),
+
+                Tables\Columns\TextColumn::make('status')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //

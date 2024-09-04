@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
-            $table->enum('status', ['paid', 'unpaid']);
+            $table->enum('currency_of_payments', ['USD', 'EUR', 'MKD']);
             $table->decimal('total_amount', 8, 2);
             $table->decimal('discount', 8, 2)->nullable();
             $table->decimal('paid_amount', 8, 2);
             $table->date('due_date');
+            $table->enum('status', ['paid', 'unpaid']);
             $table->timestamps();
         });
     }

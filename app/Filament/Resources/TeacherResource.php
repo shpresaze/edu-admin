@@ -81,7 +81,11 @@ class TeacherResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('address')
-                    ->limit(50), // Adjust as needed
+                    ->limit(50),
+
+                Tables\Columns\TextColumn::make('courses_count')
+                    ->label('Courses Count')
+                    ->numeric(),
             ])
             ->filters([
                 // Add any filters here if needed

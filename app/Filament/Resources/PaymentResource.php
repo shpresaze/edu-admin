@@ -23,9 +23,9 @@ class PaymentResource extends Resource
     protected static ?int $navigationSort = 4;
 
     public static function shouldRegisterNavigation(): bool
-        {
-            return !Auth::user()->isTeacher();
-        }
+    {
+        return !Auth::user()->isTeacher();
+    }
 
     public static function form(Form $form): Form
     {
@@ -41,10 +41,12 @@ class PaymentResource extends Resource
                     ->relationship('student', 'first_name')
                     ->required(),
 
-                Forms\Components\Select::make('status')
+                Forms\Components\Select::make('currency_of_payments')
+                    ->label('Currency Of Payments')
                     ->options([
-                        'paid' => 'Paid',
-                        'unpaid' => 'Unpaid',
+                        'USD' => 'USD',
+                        'EUR' => 'EUR',
+                        'MKD' => 'MKD',
                     ])
                     ->required(),
 
@@ -62,6 +64,13 @@ class PaymentResource extends Resource
 
                 Forms\Components\DatePicker::make('due_date')
                     ->required(),
+
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'paid' => 'Paid',
+                        'unpaid' => 'Unpaid',
+                    ])
+                    ->required(),
             ]);
     }
 
@@ -77,7 +86,7 @@ class PaymentResource extends Resource
                 ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('status')
+                Tables\Columns\TextColumn::make('currency_of_payments')
                     ->sortable()
                     ->searchable(),
 
@@ -96,6 +105,10 @@ class PaymentResource extends Resource
                 Tables\Columns\TextColumn::make('due_date')
                     ->sortable()
                     ->date(),
+
+                Tables\Columns\TextColumn::make('status')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 // Add any filters here if needed

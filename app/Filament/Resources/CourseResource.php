@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\SelectFilter;
 
 class CourseResource extends Resource
 {
@@ -78,7 +79,12 @@ class CourseResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                // Add any filters here if needed
+                SelectFilter::make('status')
+                    ->options([
+                        'waiting_to_start' => 'Waiting to Start',
+                        'ongoing' => 'Ongoing',
+                        'done' => 'Done',
+                    ])
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

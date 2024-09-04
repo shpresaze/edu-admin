@@ -22,6 +22,11 @@ class StudentResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return !Auth::user()->isTeacher();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -77,6 +82,14 @@ class StudentResource extends Resource
 
                 Tables\Columns\TextColumn::make('address')
                     ->limit(50),
+
+                Tables\Columns\TextColumn::make('enrolled_courses_count')
+                    ->label('Enrolled Courses')
+                    ->numeric(),
+
+                Tables\Columns\TextColumn::make('completed_courses_count')
+                    ->label('Completed Courses')
+                    ->numeric(),
             ])
             ->filters([
                 // Add any filters here if needed
