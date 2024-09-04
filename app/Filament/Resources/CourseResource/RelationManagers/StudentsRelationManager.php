@@ -9,6 +9,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\BulkAction;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Mail;
 
 class StudentsRelationManager extends RelationManager
 {
@@ -92,6 +95,29 @@ class StudentsRelationManager extends RelationManager
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\DetachBulkAction::make(),
+                    BulkAction::make('sendEmails')
+                        ->action(function (Collection $records, array $data): void {
+                            foreach ($records as $record) {
+                                $emailContent = $data['content'];
+
+                                Mail::raw($emailContent, function ($message) use ($record, $data) {
+                                    $message->subject($data['subject']);
+                                    $message->from('team@eduadmin.com', 'EduAdmin');
+                                    $message->to($record->email);
+                                });
+                            }
+                        })
+                        ->form([
+                            Forms\Components\Textarea::make('subject')
+                                ->label('Subject')
+                                ->required()
+                                ->default('New Message | EduAdmin'),
+                            Forms\Components\Textarea::make('content')
+                                ->label('Content')
+                                ->required(),
+                        ])
+                        ->label('Send Emails')
+                        ->icon('heroicon-o-at-symbol'),
                 ]),
             ]);
     }
